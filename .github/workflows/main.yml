@@ -29,7 +29,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y xvfb
 
-      # 移除 playwright-stealth，只安装 playwright
+      # 只安装基础库
       - name: Install Playwright and dependencies
         run: |
           pip install playwright
@@ -40,8 +40,8 @@ jobs:
           HIDENCLOUD_COOKIE: ${{ secrets.HIDENCLOUD_COOKIE }}
           HIDENCLOUD_EMAIL: ${{ secrets.HIDENCLOUD_EMAIL }}
           HIDENCLOUD_PASSWORD: ${{ secrets.HIDENCLOUD_PASSWORD }}
-        # 使用 xvfb-run 模拟真实显示器运行，绕过“无头”检测
-        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" python -u renew_service.py
+        # 使用 xvfb-run 模拟真实显示器 (1920x1080)
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" python -u renew_service.py
 
       - name: Upload error artifacts
         if: failure()
